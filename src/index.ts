@@ -41,7 +41,7 @@ async function getCircuitOutput(
   jobId: string
 ): Promise<Record<string, number> | null> {
   const { data } = await axios.post(`${API_ENDPOINT}/result`, {
-    jobId,
+    job_id: jobId,
     ...(BACKEND_NAME
       ? {
           backend_name: BACKEND_NAME,
@@ -116,7 +116,10 @@ async function listener() {
     }
 
     // push the data as clubed data
-    await contract.addData(circuitHash, 3, JSON.stringify(data));
+    setTimeout(async () => {
+      await contract.addData(circuitHash, 3, JSON.stringify(data));
+      console.log("Ag");
+    }, Math.round(Math.random() * 5000));
   });
 }
 
