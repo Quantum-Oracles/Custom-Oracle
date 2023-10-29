@@ -21,14 +21,14 @@ async function pushCircuit(circuitQasm: string): Promise<string> {
   try {
     const {
       data: { jobId },
-    } = await axios.post(
-      `${API_ENDPOINT}/circuit${
-        BACKEND_NAME ? `?backend_name=${BACKEND_NAME}` : ""
-      }`,
-      {
-        qasm: circuitQasm,
-      }
-    );
+    } = await axios.post(`${API_ENDPOINT}/circuit`, {
+      qasm: circuitQasm,
+      ...(BACKEND_NAME
+        ? {
+            backend_name: BACKEND_NAME,
+          }
+        : {}),
+    });
 
     return jobId;
   } catch (err) {
@@ -40,11 +40,14 @@ async function pushCircuit(circuitQasm: string): Promise<string> {
 async function getCircuitOutput(
   jobId: string
 ): Promise<Record<string, number> | null> {
-  const { data } = await axios.post(
-    `${API_ENDPOINT}/result/${jobId}${
-      BACKEND_NAME ? `?backend_name=${BACKEND_NAME}` : ""
-    }`
-  );
+  const { data } = await axios.post(`${API_ENDPOINT}/result`, {
+    jobId,
+    ...(BACKEND_NAME
+      ? {
+          backend_name: BACKEND_NAME,
+        }
+      : {}),
+  });
 
   return data;
 }
