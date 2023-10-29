@@ -17,8 +17,6 @@ const signer = new ethers.Wallet(PRIVATE_KEY, provider);
 
 const contract = new ethers.Contract(CONTRACT_ADDRESS, ContractABI, signer);
 
-console.log(ethers.utils.toUtf8Bytes("23472398472"));
-
 async function pushCircuit(circuitQasm: string): Promise<string> {
   try {
     const {
